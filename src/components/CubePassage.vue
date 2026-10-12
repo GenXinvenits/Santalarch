@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
 import * as THREE from 'three'
+import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
