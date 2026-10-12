@@ -31,3 +31,24 @@
 @media(max-width:800px){.door-study-heading{align-items:flex-start;flex-direction:column}.door-study-heading>p{max-width:400px}.door-stage{height:420px}.door-controls{gap:16px;flex-wrap:wrap}.door-controls>span{width:100%;margin:0}.door-stage-top,.door-stage-bottom{left:12px;right:12px;font-size:8px}}
 @media(max-width:420px){.door-stage{height:350px}.door-stage-bottom span:last-child{display:none}.door-controls button{font-size:9px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.service-detail{animation:none}}
+
+
+/* Scroll-driven cube passage: the visual interlude is a scene, not a static banner. */
+.cube-passage{height:300vh;position:relative;background:#11120f;color:#e4e1d7}
+.cube-passage-sticky{height:100svh;min-height:540px;position:sticky;top:0;overflow:hidden;background:#11120f}
+.cube-passage-canvas{position:absolute;inset:0}
+.cube-passage-canvas canvas{display:block;width:100%;height:100%}
+.passage-top,.passage-bottom{position:absolute;left:5.2vw;right:5.2vw;display:flex;justify-content:space-between;gap:18px;font:9px var(--mono);letter-spacing:.06em;color:#c0beb3}
+.passage-top{top:28px}
+.passage-bottom{bottom:28px}
+.passage-copy{position:absolute;left:10vw;top:50%;transform:translateY(-50%);max-width:850px;pointer-events:none}
+.passage-kicker{font:10px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:#b1aa98;margin:0 0 28px}
+.passage-copy h2{font-size:clamp(58px,10vw,150px);font-weight:300;line-height:.86;letter-spacing:-.09em;margin:0;animation:passageTextIn .55s both}
+.passage-copy h2 em{font-style:normal;color:#a7a092}
+.passage-hint{font-size:12px;color:#c0beb3;margin-top:30px}
+.passage-progress{position:absolute;bottom:0;left:0;right:0;height:2px;background:#ffffff22}
+.passage-progress span{display:block;width:100%;height:100%;background:#c5b89f;transform-origin:left center}
+.passage-bottom b{font-weight:400;color:#e4e1d7;margin-left:12px}
+@keyframes passageTextIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:700px){.cube-passage{height:240vh}.cube-passage-sticky{min-height:500px}.passage-top,.passage-bottom{left:6vw;right:6vw;font-size:8px}.passage-top span:last-child{display:none}.passage-copy{left:7vw;right:7vw}.passage-copy h2{font-size:clamp(54px,13vw,92px)}.passage-hint{font-size:11px;max-width:220px}.passage-bottom{bottom:18px}}
+@media(prefers-reduced-motion:reduce){.cube-passage{height:100svh}.passage-copy h2{animation:none}}
