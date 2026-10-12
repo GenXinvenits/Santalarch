@@ -45,8 +45,9 @@ const countries = ['France', 'Germany', 'Hungary', 'Ukraine', 'UAE', 'Spain', 'S
 
 function closeMenu() { menuOpen.value = false }
 
+let animationContext
 onMounted(() => {
-  const ctx = gsap.context(() => {
+  animationContext = gsap.context(() => {
     gsap.from('.hero-copy > *', {
       y: 22, opacity: 0, duration: 1, stagger: 0.12, ease: 'power3.out',
       delay: 0.15,
@@ -58,8 +59,8 @@ onMounted(() => {
       })
     })
   })
-  onUnmounted(() => ctx.revert())
 })
+onUnmounted(() => animationContext?.revert())
 </script>
 
 <template>
