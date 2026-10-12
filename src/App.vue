@@ -3,6 +3,7 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import DoorStudy from './components/DoorStudy.vue'
+import CubePassage from './components/CubePassage.vue'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -71,7 +72,7 @@ onUnmounted(() => animationContext?.revert())
       <span>This site uses cookies.</span>
       <div class="cookie-actions">
         <button @click="cookieVisible = false">Decline</button>
-        <button class="cookie-accept" @click="$event.currentTarget.closest('.cookie-note').remove()">Accept</button>
+        <button class="cookie-accept" @click="cookieVisible = false">Accept</button>
       </div>
     </div>
 
@@ -156,6 +157,8 @@ onUnmounted(() => animationContext?.revert())
         </div>
         <button v-if="visibleProjects < projects.length" class="text-button load-more" @click="visibleProjects = Math.min(visibleProjects + 6, projects.length)">Load more <span>＋</span></button>
       </section>
+
+      <CubePassage />
 
       <section id="services" class="services section-pad">
         <div class="section-kicker"><span>05 / WHAT WE DO</span><span>Integrated disciplines</span></div>
