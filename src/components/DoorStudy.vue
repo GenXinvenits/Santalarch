@@ -5,7 +5,7 @@ import * as THREE from 'three'
 const host = ref(null)
 const exploded = ref(false)
 const ready = ref(false)
-let renderer, scene, camera, frame, observer, root, doorAssembly
+let renderer, scene, camera, animationFrameId, observer, root, doorAssembly
 let pointerDown = false
 let lastX = 0
 let lastY = 0
@@ -142,7 +142,7 @@ onMounted(() => {
   observer.observe(host.value)
   ready.value = true
   const animate = () => {
-    frame = requestAnimationFrame(animate)
+    animationFrameId = requestAnimationFrame(animate)
     currentRotationY += (targetRotationY - currentRotationY) * 0.08
     currentRotationX += (targetRotationX - currentRotationX) * 0.08
     root.rotation.y = currentRotationY
@@ -152,7 +152,7 @@ onMounted(() => {
   animate()
 })
 onUnmounted(() => {
-  cancelAnimationFrame(frame)
+  cancelAnimationFrame(animationFrameId)
   observer?.disconnect()
   renderer?.dispose()
   if (renderer?.domElement?.parentNode) renderer.domElement.parentNode.removeChild(renderer.domElement)
