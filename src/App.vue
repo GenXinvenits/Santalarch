@@ -2,198 +2,181 @@
 import { onMounted, onUnmounted, ref } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import DoorStudy from './components/DoorStudy.vue'
-import CubePassage from './components/CubePassage.vue'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const menuOpen = ref(false)
-const cookieVisible = ref(true)
-const activeService = ref(0)
-const infrastructureOpen = ref(false)
-const visibleProjects = ref(6)
+const year = new Date().getFullYear()
 
 const services = [
-  { title: 'Architecture', copy: 'Projects from private residences to large masterplans across Europe and the Middle East.' },
-  { title: 'Interior', copy: 'Spatial identity shaped into a coherent, memorable human experience.' },
-  { title: 'Procurement', copy: 'Tenders, suppliers, and production coordinated for predictable delivery.' },
-  { title: 'Consulting', copy: 'Site potential, brief, and strategy clarified before design begins.' },
-  { title: 'Marketing', copy: 'Positioning, narrative, and presentation shaping market perception.' },
+  { number: '01', title: 'Software & web', description: 'Thoughtful websites, web applications, and digital products built to feel clear, fast, and dependable.', tags: ['Web platforms', 'Frontend engineering', 'Product development'] },
+  { number: '02', title: 'Systems & automation', description: 'Connect the moving parts. Reduce repetitive work and turn complicated workflows into reliable systems.', tags: ['Workflow design', 'Integrations', 'Automation'] },
+  { number: '03', title: 'Technology consulting', description: 'Make better technical decisions with a practical plan, honest trade-offs, and a clear path forward.', tags: ['Architecture', 'Technical strategy', 'Problem solving'] },
+  { number: '04', title: 'Design & experience', description: 'Translate complex ideas into intuitive interfaces, cohesive visual systems, and useful experiences.', tags: ['UI / UX', 'Design systems', 'Prototyping'] },
 ]
 
-const stages = [
-  'Strategic Consulting',
-  'Alignment Session',
-  'Design Foundation',
-  'Project Development',
-  'Delivery Support',
-  'Market Positioning',
+const steps = [
+  { n: '01', title: 'Understand', text: 'We ask better questions before reaching for a solution.' },
+  { n: '02', title: 'Untangle', text: 'We find the real problem, map the constraints, and simplify the moving parts.' },
+  { n: '03', title: 'Build', text: 'We turn a considered plan into working, testable technology.' },
+  { n: '04', title: 'Refine', text: 'We test the details, improve what matters, and leave things easier to maintain.' },
 ]
-const scope = [
-  'Master plan or layout options',
-  'Functional zoning',
-  'Architectural and interior concept',
-  'Spatial organisation',
-  'Material direction',
-  'Lighting and furniture references',
-  'Conceptual visualisations',
-]
-const projects = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
-const team = [
-  { name: 'Mariia Plyuta', role: 'Lead Architect (Berlin)' },
-  { name: 'Kyrylo Bastrychev', role: 'Founder & Architect' },
-  { name: 'Misak Melkonean', role: 'Lead Architect (London)' },
-]
-const countries = ['France', 'Germany', 'Hungary', 'Ukraine', 'UAE', 'Spain', 'Switzerland', 'Italy', 'Monaco', 'UK', 'Singapore', 'KSA']
 
-function closeMenu() { menuOpen.value = false }
+function closeMenu() {
+  menuOpen.value = false
+}
 
-let animationContext
+let ctx
 onMounted(() => {
-  animationContext = gsap.context(() => {
-    gsap.from('.hero-copy > *', {
-      y: 22, opacity: 0, duration: 1, stagger: 0.12, ease: 'power3.out',
-      delay: 0.15,
+  ctx = gsap.context(() => {
+    gsap.from('.hero-kicker, .hero-title, .hero-copy, .hero-actions', {
+      y: 24, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out', delay: 0.12
     })
-    gsap.utils.toArray('[data-reveal]').forEach((element) => {
-      gsap.from(element, {
-        y: 30, opacity: 0, duration: 0.8, ease: 'power2.out',
-        scrollTrigger: { trigger: element, start: 'top 88%', once: true },
+    gsap.utils.toArray('[data-reveal]').forEach((el) => {
+      gsap.from(el, {
+        y: 28, opacity: 0, duration: 0.7, ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 86%', once: true }
       })
     })
   })
 })
-onUnmounted(() => animationContext?.revert())
+onUnmounted(() => ctx?.revert())
 </script>
 
 <template>
   <div class="site-shell">
-    <div v-if="cookieVisible" class="cookie-note" aria-label="Cookie preferences">
-      <span>This site uses cookies.</span>
-      <div class="cookie-actions">
-        <button @click="cookieVisible = false">Decline</button>
-        <button class="cookie-accept" @click="cookieVisible = false">Accept</button>
-      </div>
-    </div>
-
     <header class="site-header">
-      <a class="wordmark" href="#top" aria-label="SANTAL home">SANTAL<span>®</span></a>
-      <nav class="desktop-nav" aria-label="Main navigation">
-        <a href="#philosophy">Philosophy</a><a href="#works">Works</a><a href="#services">Services</a>
-        <a href="#process">Process</a><a href="#company">Company</a><a href="#contact">Contact</a>
-      </nav>
-      <button class="menu-toggle" :aria-expanded="menuOpen" @click="menuOpen = !menuOpen">
-        <span>{{ menuOpen ? 'Close' : 'Menu' }}</span><i :class="{ open: menuOpen }"><b></b><b></b></i>
+      <a class="brand" href="#top" aria-label="Dibacii Technologies home" @click="closeMenu">
+        <svg class="brand-mark" viewBox="0 0 42 42" fill="none" aria-hidden="true">
+          <path d="M7 7H21C29 7 35 13 35 21S29 35 21 35H7V7Z" stroke="currentColor" stroke-width="2"/>
+          <path d="M15 15H22C25.4 15 28 17.6 28 21S25.4 27 22 27H15V15Z" stroke="currentColor" stroke-width="2"/>
+          <circle cx="21" cy="21" r="2.5" fill="currentColor"/>
+        </svg>
+        <span class="brand-wordmark">DIBACII<span>®</span><small>TECHNOLOGIES</small></span>
+      </a>
+      <button class="menu-toggle" type="button" :aria-expanded="menuOpen" aria-label="Toggle navigation" @click="menuOpen = !menuOpen">
+        <span></span><span></span>
       </button>
+      <nav class="main-nav" :class="{ 'is-open': menuOpen }" aria-label="Main navigation">
+        <a href="#what-we-do" @click="closeMenu">What we do</a>
+        <a href="#approach" @click="closeMenu">Our approach</a>
+        <a href="#about" @click="closeMenu">About</a>
+        <a class="nav-contact" href="#contact" @click="closeMenu">Start a conversation <span>↗</span></a>
+      </nav>
     </header>
-
-    <div v-if="menuOpen" class="menu-overlay">
-      <a v-for="item in [['Philosophy','#philosophy'],['Works','#works'],['Services','#services'],['Process','#process'],['Company','#company'],['Contact','#contact']]" :key="item[0]" :href="item[1]" @click="closeMenu">{{ item[0] }}</a>
-      <span class="menu-index">SANTAL SA · LUGANO · WORLDWIDE</span>
-    </div>
 
     <main id="top">
       <section class="hero section-pad">
-        <div class="hero-meta"><span>ARCHITECTURE / INTERIOR / PROCUREMENT</span><span>46°00' N — 8°57' E</span></div>
-        <div class="hero-copy">
-          <p class="eyebrow">Architectural studio</p>
-          <h1>built on uncompromising<br /><em>precision and intent.</em></h1>
-          <div class="hero-bottom"><p>Architecture Shapes Perception</p><p>Bold presence.<br />Quiet execution.</p></div>
+        <div class="hero-main">
+          <p class="eyebrow hero-kicker"><span class="status-dot"></span> INDEPENDENT TECHNOLOGY STUDIO <span class="eyebrow-index">[ 01 — 04 ]</span></p>
+          <h1 class="hero-title">The art of<br>figuring <span class="title-accent">things out.</span></h1>
+          <p class="hero-copy">Dibacii Technologies turns complex problems into clear, considered digital solutions. Strategy, engineering, and design—working as one.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#what-we-do">Explore what we do <span>↘</span></a>
+            <a class="text-link" href="#approach">How we think <span>↗</span></a>
+          </div>
         </div>
-        <div class="hero-visual" aria-label="Architectural line drawing">
-          <div class="blueprint-grid"></div>
-          <svg class="hero-drawing" viewBox="0 0 900 580" role="img" aria-label="Abstract architectural elevation drawing">
-            <g fill="none" stroke="currentColor" stroke-width="1">
-              <path d="M75 480 L75 180 L255 72 L440 180 L440 480 Z M75 180 L440 180 M255 72 L255 480 M75 330 L440 330"/>
-              <path d="M440 480 L440 225 L650 110 L825 215 L825 480 Z M440 225 L825 215 M650 110 L650 480 M440 355 L825 355"/>
-              <path d="M110 215 H220 V290 H110 Z M290 215 H405 V290 H290 Z M110 365 H220 V450 H110 Z M290 365 H405 V450 H290 Z"/>
-              <path d="M475 260 H610 V330 H475 Z M680 260 H790 V330 H680 Z M475 385 H610 V455 H475 Z M680 385 H790 V455 H680 Z"/>
-              <path d="M35 500 H860 M255 45 V520 M55 180 H455 M650 85 V520" stroke-dasharray="4 6" opacity=".5"/>
-              <circle cx="255" cy="180" r="7"/><circle cx="650" cy="225" r="7"/>
-            </g>
+        <div class="hero-art" aria-label="Abstract geometric illustration representing connected systems">
+          <div class="art-topline"><span>FIG. 001</span><span>IDEAS INTO SYSTEMS</span></div>
+          <div class="art-grid"></div>
+          <svg class="orbit-art" viewBox="0 0 620 560" fill="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="orbGlow" x1="88" y1="95" x2="516" y2="455" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#d9ff68"/><stop offset="1" stop-color="#9bd83f" stop-opacity=".1"/>
+              </linearGradient>
+              <radialGradient id="orbFill" cx="0" cy="0" r="1" gradientTransform="matrix(195 184 -175 185 302 269)" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#d9ff68" stop-opacity=".22"/><stop offset="1" stop-color="#d9ff68" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <circle cx="310" cy="280" r="210" fill="url(#orbFill)"/>
+            <ellipse cx="310" cy="280" rx="210" ry="83" transform="rotate(-35 310 280)" stroke="currentColor" stroke-opacity=".45"/>
+            <ellipse cx="310" cy="280" rx="210" ry="83" transform="rotate(35 310 280)" stroke="currentColor" stroke-opacity=".45"/>
+            <ellipse cx="310" cy="280" rx="112" ry="210" stroke="currentColor" stroke-opacity=".3"/>
+            <circle cx="310" cy="280" r="150" stroke="currentColor" stroke-opacity=".18"/>
+            <path d="M106 390 218 325 310 280 420 160 520 206" stroke="url(#orbGlow)" stroke-width="1.5"/>
+            <path d="M145 145 235 230 310 280 390 345 466 421" stroke="url(#orbGlow)" stroke-width="1.5"/>
+            <path d="M310 70V490M100 280H520" stroke="currentColor" stroke-opacity=".2" stroke-dasharray="3 7"/>
+            <path d="M240 210 310 170 380 210V290L310 330 240 290V210Z" stroke="#d9ff68" stroke-width="2"/>
+            <path d="M240 210 310 250 380 210M310 250V330" stroke="#d9ff68" stroke-width="2"/>
+            <path d="M240 290 310 250 380 290" stroke="#d9ff68" stroke-opacity=".65"/>
+            <circle cx="310" cy="250" r="5" fill="#d9ff68"/>
+            <circle cx="420" cy="160" r="4" fill="#d9ff68"/>
+            <circle cx="145" cy="145" r="4" fill="#d9ff68"/>
+            <circle cx="466" cy="421" r="4" fill="#d9ff68"/>
+            <circle cx="106" cy="390" r="4" fill="#d9ff68"/>
           </svg>
-          <span class="drawing-label label-a">FIG. 001 / ELEVATION</span><span class="drawing-label label-b">S — 01:100</span>
-          <span class="drawing-coordinates">X 04 / Y 12 / Z 08</span>
+          <div class="art-coordinate coordinate-one">31° / 75°<small>FIND THE SIGNAL</small></div>
+          <div class="art-coordinate coordinate-two">SYSTEMS / 001<small>MAKE IT MAKE SENSE</small></div>
+          <span class="art-cross cross-one">+</span><span class="art-cross cross-two">+</span>
+          <div class="art-caption"><span>01</span><span>THINK CLEARLY. BUILD WITH INTENT.</span></div>
         </div>
-        <a href="#philosophy" class="scroll-cue"><span class="scroll-line"></span><span>Scroll to discover</span><span>↓</span></a>
-        <div class="hero-index">S / 001</div>
+        <div class="hero-bottom"><span>INQUISITIVE BY NATURE.</span><span>PRECISE BY DESIGN.</span><span class="scroll-cue">SCROLL TO EXPLORE ↓</span></div>
       </section>
 
-      <section id="philosophy" class="philosophy section-pad">
-        <div class="section-kicker"><span>01 / PHILOSOPHY</span><span>Our position</span></div>
-        <div class="philosophy-grid">
-          <article data-reveal><span class="number">01</span><h2>Bold<span>.</span></h2><p>A clear visual position, formed through strength, precision, and emotional gravity — a presence that stays beneath the surface.</p></article>
-          <article data-reveal><span class="number">02</span><h2>Confident<span>.</span></h2><p>A precise system of decisions, where every detail is resolved to create reliability, clarity, and lasting performance.</p></article>
-          <article data-reveal><span class="number">03</span><h2>Quiet<span>.</span></h2><p>A quiet presence, formed through restraint and balance — architecture that does not shout, yet continues to resonate.</p></article>
+      <section class="intro-band section-pad" data-reveal>
+        <p class="eyebrow">A DIFFERENT KIND OF TECHNOLOGY PARTNER</p>
+        <p class="intro-statement">Good technology isn't about making things <em>complicated.</em> It's about making the complicated <span>work beautifully.</span></p>
+        <div class="intro-foot"><span>CURIOUS MINDS. PRACTICAL THINKING.</span><span>BUILT AROUND THE PROBLEM, NOT THE HYPE.</span></div>
+      </section>
+
+      <section id="what-we-do" class="services-section section-pad">
+        <div class="section-heading" data-reveal>
+          <div><p class="eyebrow">01 / CAPABILITIES</p><h2>Make the difficult<br><span>feel simple.</span></h2></div>
+          <p class="section-summary">From the first question to the final detail, we bring the right mix of thinking and making to every challenge.</p>
         </div>
-      </section>
-
-      <section class="vision section-pad">
-        <div class="section-kicker"><span>02 / OUR VISION</span><span>Direction becomes form</span></div>
-        <div class="vision-title"><span class="giant-word">WE</span><div><p>Our Vision</p><h2>Architecture is not an image.<br /><em>It is a system of intent.</em></h2></div></div>
-        <div class="vision-foot"><span>00 — 03</span><p>We bring together perception, engineering, and material intelligence to create architecture with a lasting point of view.</p></div>
-      </section>
-
-      <section class="approach section-pad">
-        <div class="section-kicker"><span>03 / OUR APPROACH</span><span>See · Hear · Touch · Feel</span></div>
-        <div class="approach-intro"><p class="eyebrow">A considered process</p><h2>Inspiration defines direction —<br /><em>engineering secures it.</em></h2><p>We translate vision into architecture through a structured development process.</p></div>
-        <div class="principles">
-          <article data-reveal><span>01 / INTENT</span><h3>Intent Before Image</h3><p>Every project begins with a clear architectural direction defined through proportion, hierarchy, and spatial logic. Form must remain coherent under structural and technical evaluation.</p></article>
-          <article data-reveal><span>02 / STRUCTURE</span><h3>Engineering<br />as Foundation</h3><p>Structural systems, tolerances, and interdisciplinary coordination are resolved early. Architecture must be buildable, rational, and exact — not merely expressive.</p></article>
-          <article data-reveal><span>03 / MATERIAL</span><h3>Material Intelligence</h3><p>Materials are selected for performance, longevity, tactility, and light interaction. Authenticity is essential. Every surface must justify its presence structurally and atmospherically.</p></article>
-          <article data-reveal><span>04 / DETAIL</span><h3>Detail<br />as Discipline</h3><p>Junctions, transitions, alignments, and finishing tolerances are refined through multiple development stages. Ambiguity is eliminated before construction begins.</p></article>
+        <div class="service-list">
+          <article v-for="service in services" :key="service.number" class="service-row" data-reveal>
+            <span class="service-number">{{ service.number }}</span>
+            <div class="service-main"><h3>{{ service.title }}</h3><p>{{ service.description }}</p><div class="service-tags"><span v-for="tag in service.tags" :key="tag">{{ tag }}</span></div></div>
+            <a class="service-arrow" href="#contact" :aria-label="'Discuss ' + service.title">↗</a>
+          </article>
         </div>
-        <DoorStudy />
+        <div class="capability-note"><span class="status-dot"></span> ONE TEAM. CONNECTED DISCIPLINES. <span class="capability-note-right">NO OFF-THE-SHELF THINKING.</span></div>
       </section>
 
-      <section id="works" class="works section-pad">
-        <div class="section-kicker"><span>04 / SELECTED WORK</span><span>Portfolio / 2020—2026</span></div>
-        <div class="section-heading"><h2>Our Featured<br /><em>Projects</em></h2><span class="heading-aside">A selection of work<br />in progress and realised.</span></div>
-        <div class="project-grid">
-          <a v-for="(project, i) in projects.slice(0, visibleProjects)" :key="project" href="#contact" class="project-card" :class="'project-card-' + (i % 6 + 1)">
-            <div class="project-art"><div class="project-art-grid"></div><div class="project-shape"></div><span class="project-figure">S / {{ project }}</span><span class="project-open">↗</span></div>
-            <div class="project-caption"><span>Project / {{ project }}</span><span>Architecture · Interior</span></div>
-          </a>
+      <section id="approach" class="approach-section section-pad">
+        <div class="approach-head" data-reveal>
+          <p class="eyebrow">02 / HOW WE WORK</p>
+          <h2>Curiosity is the<br><span>starting point.</span></h2>
+          <p>Every worthwhile solution begins with a better question. We look beneath the brief, challenge assumptions, and make a plan that fits the real world.</p>
         </div>
-        <button v-if="visibleProjects < projects.length" class="text-button load-more" @click="visibleProjects = Math.min(visibleProjects + 6, projects.length)">Load more <span>＋</span></button>
+        <div class="process-grid">
+          <article v-for="step in steps" :key="step.n" class="process-card" data-reveal>
+            <div class="process-card-top"><span>{{ step.n }}</span><svg viewBox="0 0 44 44" fill="none" aria-hidden="true"><circle cx="22" cy="22" r="17" stroke="currentColor" stroke-opacity=".35"/><path d="M10 28 20 18 27 25 35 14M27 14H35V22" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <h3>{{ step.title }}</h3><p>{{ step.text }}</p>
+          </article>
+        </div>
+        <div class="approach-bottom"><span>THOUGHTFUL BY DEFAULT.</span><span>ALWAYS LEARNING.</span><span>BUILT TO LAST.</span></div>
       </section>
 
-      <CubePassage />
-
-      <section id="services" class="services section-pad">
-        <div class="section-kicker"><span>05 / WHAT WE DO</span><span>Integrated disciplines</span></div>
-        <div class="service-layout"><div class="service-list"><button v-for="(service, i) in services" :key="service.title" :class="{ active: activeService === i }" @mouseenter="activeService = i" @focus="activeService = i" @click="activeService = i"><span>0{{ i + 1 }}</span><span>{{ service.title }}</span><span>↗</span></button></div><div class="service-detail" :key="activeService"><span class="service-index">DISCIPLINE / 0{{ activeService + 1 }}</span><h3>{{ services[activeService].title }}</h3><p>{{ services[activeService].copy }}</p><a href="#contact">Discuss a project <span>↗</span></a></div></div>
+      <section id="about" class="manifesto-section section-pad">
+        <div class="manifesto-label" data-reveal><p class="eyebrow">03 / THE DIBACII MINDSET</p><span>SKILL ISN'T A SHORTCUT.<br>IT'S THE WORK.</span></div>
+        <div class="manifesto-content" data-reveal>
+          <h2>We believe the best tool is a <span>well-understood problem.</span></h2>
+          <p>Dibacii is rooted in the idea of ingenuity: the patience to investigate, the craft to make, and the judgement to know what matters. We bring that mindset to technology—staying curious, sweating the details, and keeping the human on the other side in view.</p>
+          <div class="manifesto-signature"><span class="signature-mark">D.</span><span>THE ART OF FIGURING THINGS OUT.<small>THE IDEA BEHIND DIBACII.</small></span></div>
+        </div>
+        <div class="manifesto-graphic" aria-hidden="true"><span class="graphic-ring ring-a"></span><span class="graphic-ring ring-b"></span><span class="graphic-ring ring-c"></span><span class="graphic-core">D</span><span class="graphic-label">INGENUITY<br>IN MOTION</span></div>
       </section>
 
-      <section id="process" class="process section-pad">
-        <div class="section-kicker"><span>06 / OUR PROCESS</span><span>From intent to delivery</span></div>
-        <div class="section-heading"><h2>Every project is a sequence<br />of <em>clear decisions.</em></h2><p>Each stage establishes the conditions for the next — from early strategy to the final detail.</p></div>
-        <div class="stage-list"><details v-for="(stage, i) in stages" :key="stage" :open="i === 0"><summary><span>0{{ i + 1 }}</span><h3>{{ stage }}</h3><span class="stage-toggle">＋</span></summary><div class="stage-content"><p>We establish the spatial, architectural, and visual direction of the project. Planning options, functional relationships, circulation, proportions, material language, atmosphere, and key design principles are developed into a coherent concept.</p><div><span>Scope</span><ul><li v-for="item in scope" :key="item">{{ item }}</li></ul></div></div></details></div>
+      <section class="closing-quote section-pad" data-reveal>
+        <span class="quote-mark">“</span><p>There is always a clearer way<br>to <em>figure it out.</em></p><span class="quote-index">DIBACII / PRINCIPLE 001</span>
       </section>
 
-      <section id="company" class="company section-pad">
-        <div class="section-kicker"><span>07 / COMPANY</span><span>People · Places · Perspective</span></div>
-        <div class="company-intro"><h2>Working<br /><em>Worldwide.</em></h2><p>Our team is united by attention to detail, high standards, and uncompromising expectations of results.</p></div>
-        <div class="country-line"><span v-for="country in countries" :key="country">{{ country }}</span></div>
-        <div class="team-grid"><article v-for="(person, i) in team" :key="person.name"><div class="team-portrait"><span>0{{ i + 1 }}</span><div class="portrait-mark">{{ person.name.split(' ').map(n => n[0]).join('') }}</div></div><div class="team-name"><h3>{{ person.name }}</h3><p>{{ person.role }}</p></div></article></div>
-        <div class="worldwide-note"><span>INTERNATIONAL PRACTICE</span><p>Our team works on international projects and procurement operations all over the world.</p><span>46°00' N / 8°57' E</span></div>
-      </section>
-
-      <section id="contact" class="contact section-pad">
-        <div class="section-kicker"><span>08 / CONTACT</span><span>Start a conversation</span></div>
-        <p class="eyebrow">Have a project in mind?</p><h2>Let’s <em>talk.</em></h2>
-        <div class="contact-grid"><div><span class="contact-label">Enquire</span><a href="mailto:info@santalarch.com">info@santalarch.com <span>↗</span></a><a href="mailto:partnerships@santalarch.com">partnerships@santalarch.com <span>↗</span></a><a href="mailto:careers@santalarch.com">careers@santalarch.com <span>↗</span></a></div><div><span class="contact-label">Address</span><p>Via Prati Botta 6<br />6917 Lugano, TI, Switzerland</p><a href="https://maps.google.com/?q=Via+Prati+Botta+6+Lugano" target="_blank" rel="noreferrer">Open in Maps <span>↗</span></a></div></div>
-      </section>
-
-      <section class="infrastructure section-pad">
-        <div class="section-kicker"><span>09 / DIGITAL INFRASTRUCTURE</span><span>Nothing is secondary</span></div>
-        <div class="infrastructure-copy"><h2>Nothing<br /><em>is secondary.</em></h2><div><p>We believe that the quality of a project is defined as much by the decisions that remain unseen as by those that are immediately visible.</p><p>The same principle extends to our own digital infrastructure. SANTAL’s production website is hosted in Switzerland within Flow Swiss’ ALP2 region — an underground data centre built inside a former civil-defence bunker in Lucerne.</p><div v-if="infrastructureOpen"><p>Its infrastructure combines physical resilience with responsible energy use: the facility operates on renewable energy, uses water from Lake Lucerne for cooling, and returns recovered server heat to the local district heating network.</p><p>For us, this is not an isolated technical decision. It reflects a broader principle: security, longevity, efficiency and responsible use of resources should be considered at every scale.</p></div><button class="text-button" @click="infrastructureOpen = !infrastructureOpen">{{ infrastructureOpen ? 'Read Less' : 'Read More' }} <span>{{ infrastructureOpen ? '−' : '+' }}</span></button></div></div>
+      <section id="contact" class="contact-section section-pad">
+        <div class="contact-top" data-reveal><p class="eyebrow">04 / YOUR TURN</p><span>HAVE A GOOD PROBLEM?</span></div>
+        <div class="contact-main" data-reveal><h2>Let's figure<br><span>it out.</span></h2><a class="contact-orb" href="mailto:hello@dibacii.com" aria-label="Email Dibacii Technologies"><span>START A<br>CONVERSATION</span><b>↗</b></a></div>
+        <div class="contact-foot"><p>Tell us what you're building, fixing, or trying to make sense of.</p><a href="mailto:hello@dibacii.com">hello@dibacii.com <span>↗</span></a></div>
       </section>
     </main>
 
     <footer class="site-footer section-pad">
-      <div class="footer-top"><a class="wordmark footer-mark" href="#top">SANTAL<span>®</span></a><a href="#top" class="back-top">Back to top ↑</a></div>
-      <div class="footer-bottom"><span>Copyright © 2026 SANTAL SA — All Rights Reserved.</span><div><a href="#contact">Privacy Policy</a><a href="#contact">Terms of Use</a></div><span>Architecture Shapes Perception</span></div>
+      <a class="brand footer-brand" href="#top">
+        <svg class="brand-mark" viewBox="0 0 42 42" fill="none" aria-hidden="true"><path d="M7 7H21C29 7 35 13 35 21S29 35 21 35H7V7Z" stroke="currentColor" stroke-width="2"/><path d="M15 15H22C25.4 15 28 17.6 28 21S25.4 27 22 27H15V15Z" stroke="currentColor" stroke-width="2"/><circle cx="21" cy="21" r="2.5" fill="currentColor"/></svg>
+        <span class="brand-wordmark">DIBACII<small>TECHNOLOGIES</small></span>
+      </a>
+      <p>Independent thinking. Useful technology.</p>
+      <div class="footer-meta"><span>© {{ year }} DIBACII TECHNOLOGIES</span><a href="#top">BACK TO TOP ↑</a><span>MADE WITH INTENT.</span></div>
     </footer>
   </div>
 </template>
