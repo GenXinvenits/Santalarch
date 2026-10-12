@@ -2,6 +2,7 @@
 import { onMounted, onUnmounted, ref } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Lenis from 'lenis'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -14,33 +15,96 @@ const services = [
   { number: '03', title: 'Technology consulting', description: 'Make better technical decisions with a practical plan, honest trade-offs, and a clear path forward.', tags: ['Architecture', 'Technical strategy', 'Problem solving'] },
   { number: '04', title: 'Design & experience', description: 'Translate complex ideas into intuitive interfaces, cohesive visual systems, and useful experiences.', tags: ['UI / UX', 'Design systems', 'Prototyping'] },
 ]
-
 const steps = [
   { n: '01', title: 'Understand', text: 'We ask better questions before reaching for a solution.' },
   { n: '02', title: 'Untangle', text: 'We find the real problem, map the constraints, and simplify the moving parts.' },
   { n: '03', title: 'Build', text: 'We turn a considered plan into working, testable technology.' },
   { n: '04', title: 'Refine', text: 'We test the details, improve what matters, and leave things easier to maintain.' },
 ]
-
-function closeMenu() {
-  menuOpen.value = false
-}
+function closeMenu() { menuOpen.value = false }
 
 let ctx
+let lenis
+let ticker
+let progressTrigger
 onMounted(() => {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (!reduceMotion) {
+    lenis = new Lenis({
+      duration: 1.15,
+      smoothWheel: true,
+      wheelMultiplier: 0.9,
+      touchMultiplier: 1.15,
+      anchors: { offset: -84 },
+    })
+    lenis.on('scroll', ScrollTrigger.update)
+    ticker = (time) => lenis?.raf(time * 1000)
+    gsap.ticker.add(ticker)
+    gsap.ticker.lagSmoothing(0)
+  }
+
   ctx = gsap.context(() => {
-    gsap.from('.hero-kicker, .hero-title, .hero-copy, .hero-actions', {
-      y: 24, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out', delay: 0.12
-    })
+    const intro = gsap.timeline({ defaults: { ease: 'power4.out' }, delay: 0.12 })
+    intro
+      .from('.site-header .brand', { y: -18, opacity: 0, duration: 0.7 })
+      .from('.main-nav a', { y: -12, opacity: 0, duration: 0.45, stagger: 0.07 }, '-=0.4')
+      .from('.hero-kicker', { y: 18, opacity: 0, duration: 0.55 }, '-=0.2')
+      .from('.hero-title', { yPercent: 24, opacity: 0, duration: 1.05, clipPath: 'inset(0 0 35% 0)' }, '-=0.18')
+      .from('.hero-copy', { y: 22, opacity: 0, duration: 0.65 }, '-=0.48')
+      .from('.hero-actions > *', { y: 14, opacity: 0, duration: 0.5, stagger: 0.1 }, '-=0.38')
+      .from('.hero-art', { scale: 0.94, opacity: 0, duration: 1.1, ease: 'power3.out' }, '-=0.9')
+      .from('.hero-bottom span', { opacity: 0, y: 10, duration: 0.4, stagger: 0.08 }, '-=0.55')
+
+    gsap.to('.orbit-art', { rotate: 12, scale: 1.08, ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1.2 } })
+    gsap.to('.hero-art', { yPercent: 13, ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1.4 } })
+    gsap.to('.hero-main', { y: -70, opacity: 0.25, ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom 35%', scrub: 1 } })
+    gsap.to('.art-coordinate', { y: -18, ease: 'none', stagger: 0.1,
+      scrollTrigger: { trigger: '.hero-art', start: 'top bottom', end: 'bottom top', scrub: 1 } })
+
+    gsap.from('.intro-statement', { y: 70, opacity: 0, duration: 1, ease: 'power3.out',
+      scrollTrigger: { trigger: '.intro-band', start: 'top 70%', once: true } })
+    gsap.from('.intro-foot span', { x: (i) => i ? 22 : -22, opacity: 0, duration: 0.65, stagger: 0.12,
+      scrollTrigger: { trigger: '.intro-foot', start: 'top 88%', once: true } })
+
     gsap.utils.toArray('[data-reveal]').forEach((el) => {
-      gsap.from(el, {
-        y: 28, opacity: 0, duration: 0.7, ease: 'power2.out',
-        scrollTrigger: { trigger: el, start: 'top 86%', once: true }
-      })
+      gsap.from(el, { y: 34, opacity: 0, duration: 0.8, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true } })
     })
+    gsap.utils.toArray('.service-row').forEach((row, index) => {
+      gsap.from(row.querySelector('.service-number'), { x: -18, opacity: 0, duration: 0.55, ease: 'power2.out',
+        scrollTrigger: { trigger: row, start: 'top 90%', once: true } })
+      gsap.from(row.querySelector('.service-main'), { x: 26, opacity: 0, duration: 0.7, delay: index * 0.045, ease: 'power3.out',
+        scrollTrigger: { trigger: row, start: 'top 88%', once: true } })
+      gsap.from(row.querySelector('.service-arrow'), { scale: 0.6, rotate: -25, opacity: 0, duration: 0.5, ease: 'back.out(1.8)',
+        scrollTrigger: { trigger: row, start: 'top 88%', once: true } })
+    })
+    gsap.from('.process-card', { y: 45, opacity: 0, stagger: 0.13, duration: 0.8, ease: 'power3.out',
+      scrollTrigger: { trigger: '.process-grid', start: 'top 78%', once: true } })
+    gsap.from('.manifesto-content h2', { y: 60, opacity: 0, duration: 0.95, ease: 'power3.out',
+      scrollTrigger: { trigger: '.manifesto-content', start: 'top 75%', once: true } })
+    gsap.to('.manifesto-graphic', { rotate: 28, y: -50, ease: 'none',
+      scrollTrigger: { trigger: '.manifesto-section', start: 'top bottom', end: 'bottom top', scrub: 1.5 } })
+    gsap.from('.closing-quote p', { y: 55, opacity: 0, duration: 0.9, ease: 'power3.out',
+      scrollTrigger: { trigger: '.closing-quote', start: 'top 78%', once: true } })
+    gsap.from('.contact-main h2', { yPercent: 25, opacity: 0, duration: 1, ease: 'power4.out',
+      scrollTrigger: { trigger: '.contact-main', start: 'top 82%', once: true } })
+    gsap.from('.contact-orb', { scale: 0.4, rotate: -45, opacity: 0, duration: 0.9, ease: 'back.out(1.6)',
+      scrollTrigger: { trigger: '.contact-main', start: 'top 82%', once: true } })
+    progressTrigger = ScrollTrigger.create({ start: 0, end: 'max', onUpdate: (self) => {
+      document.documentElement.style.setProperty('--scroll-progress', self.progress)
+    } })
   })
+  requestAnimationFrame(() => ScrollTrigger.refresh())
 })
-onUnmounted(() => ctx?.revert())
+onUnmounted(() => {
+  ctx?.revert()
+  progressTrigger?.kill()
+  if (ticker) gsap.ticker.remove(ticker)
+  lenis?.destroy()
+})
 </script>
 
 <template>
