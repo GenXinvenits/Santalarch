@@ -2,10 +2,12 @@
 import { onMounted, onUnmounted, ref } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import DoorStudy from './components/DoorStudy.vue'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const menuOpen = ref(false)
+const cookieVisible = ref(true)
 const activeService = ref(0)
 const infrastructureOpen = ref(false)
 const visibleProjects = ref(6)
@@ -65,10 +67,10 @@ onUnmounted(() => animationContext?.revert())
 
 <template>
   <div class="site-shell">
-    <div class="cookie-note" aria-label="Cookie preferences">
+    <div v-if="cookieVisible" class="cookie-note" aria-label="Cookie preferences">
       <span>This site uses cookies.</span>
       <div class="cookie-actions">
-        <button @click="$event.currentTarget.closest('.cookie-note').remove()">Decline</button>
+        <button @click="cookieVisible = false">Decline</button>
         <button class="cookie-accept" @click="$event.currentTarget.closest('.cookie-note').remove()">Accept</button>
       </div>
     </div>
@@ -140,6 +142,7 @@ onUnmounted(() => animationContext?.revert())
           <article data-reveal><span>03 / MATERIAL</span><h3>Material Intelligence</h3><p>Materials are selected for performance, longevity, tactility, and light interaction. Authenticity is essential. Every surface must justify its presence structurally and atmospherically.</p></article>
           <article data-reveal><span>04 / DETAIL</span><h3>Detail<br />as Discipline</h3><p>Junctions, transitions, alignments, and finishing tolerances are refined through multiple development stages. Ambiguity is eliminated before construction begins.</p></article>
         </div>
+        <DoorStudy />
       </section>
 
       <section id="works" class="works section-pad">
