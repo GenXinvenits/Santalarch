@@ -1,8 +1,10 @@
-# SANTAL — website reconstruction
+# Dibacii Technologies
 
-A Vue 3 + Vite implementation workspace for reconstructing [santalarch.com](https://santalarch.com/).
+A responsive one-page website concept for **Dibacii Technologies**, built with Vue 3, Vite, and GSAP.
 
-## Development
+**Brand idea:** “The art of figuring things out.” Dibacii draws on ingenuity, craftsmanship, patient investigation, and practical problem-solving.
+
+## Run locally
 
 Requirements: Node.js 20.19+ or 22.12+.
 
@@ -11,29 +13,29 @@ npm install
 npm run dev
 ```
 
-Create a production build with:
+Create and preview a production build:
 
 ```sh
 npm run build
 npm run preview
 ```
 
-A GitHub Actions workflow runs the production build on pushes to `main` and `reconstruction`.
+## What's included
 
-## Implemented on `reconstruction`
+- Responsive navigation with a mobile menu.
+- Dark, technical visual system with a lime accent, custom SVG brand mark, and geometric hero illustration.
+- Capabilities section covering software and web, systems and automation, technology consulting, and design and experience.
+- Approach/process section, brand manifesto, and contact CTA.
+- GSAP entrance and scroll-reveal motion.
+- SEO description, Open Graph metadata, custom favicon, keyboard focus styles, and reduced-motion support.
 
-- Vue 3 + Vite app with responsive layout foundations and GSAP scroll reveals.
-- Main homepage sections, anchor navigation and responsive menu overlay.
-- Working service selection, load-more project interaction, process details and infrastructure expansion.
-- Cookie notice dismissed through Vue state (not direct DOM mutation).
-- Interactive Three.js architectural door assembly: pointer-drag rotation, exploded/reassembled layers, reset view, responsive canvas sizing, and renderer/resource cleanup.
-- Contact email links, location map link, footer navigation and reduced-motion CSS handling.
+## Before launch
 
-## Fidelity status — work in progress
+- Confirm the official contact email. The current design uses `hello@dibacii.com` as a placeholder.
+- Confirm the final service list, business details, social links, and domain.
+- The contact CTA currently opens the visitor's email application; it does not submit to a backend.
+- External Google Fonts are used for typography, with system fallbacks.
 
-This is **not yet a verified pixel-accurate clone**. The original site's full media library, exact font files and measurements, the complete cube-corridor-to-tea-room sequence, production scroll choreography, and final desktop/mobile browser comparison still need to be reproduced. Project-card artwork and team portraits remain temporary placeholders until original, usable assets can be identified. Do not treat the build as complete until the automated production build passes and the site is tested in a browser at desktop and mobile sizes.
+## Project branch
 
-## Reference
-
-- Live website: https://santalarch.com/
-- Design case study: https://thefirstthelast.agency/work/santal-architecture
+This concept lives on the `dibacii-technologies` branch. The `main` branch has not been changed by this work.
