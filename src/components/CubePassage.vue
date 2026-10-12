@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
 import * as THREE from 'three'
-import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -93,7 +92,7 @@ onMounted(() => {
 
   roomGroup = new THREE.Group()
   scene.add(roomGroup)
-  const plaster = new THREE.MeshStandardMaterial({ color: '#a7a092', roughness: 0.92, transparent: true, opacity: 0 })
+  const plaster = new THREE.MeshStandardMaterial({ color: '#a7a092', roughness: 0.92, transparent: true, opacity: 1 })
   const darkWood = new THREE.MeshStandardMaterial({ color: '#4a4033', roughness: 0.82, transparent: true, opacity: 0 })
   const linen = new THREE.MeshStandardMaterial({ color: '#c9bda7', roughness: 0.95, transparent: true, opacity: 0 })
   const brass = new THREE.MeshStandardMaterial({ color: '#8f7851', metalness: 0.55, roughness: 0.38, transparent: true, opacity: 0 })
