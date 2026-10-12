@@ -18,11 +18,20 @@ npm run build
 npm run preview
 ```
 
-## Current implementation status
+A GitHub Actions workflow runs the production build on pushes to `main` and `reconstruction`.
 
-The current branch is an initial structural and interaction prototype. It includes the main content areas, responsive layout foundations, navigation, expandable process/infrastructure content, service selection, and GSAP reveal animations.
+## Implemented on `reconstruction`
 
-It is **not yet a pixel-accurate clone**. The current project-card artwork and team portraits are temporary CSS stand-ins. The original site's actual media/assets, font files, precise layout measurements, full scroll choreography, interactive Three.js door model, cube-to-room transition, all responsive states, and final browser QA still need to be reconstructed and verified against the live reference.
+- Vue 3 + Vite app with responsive layout foundations and GSAP scroll reveals.
+- Main homepage sections, anchor navigation and responsive menu overlay.
+- Working service selection, load-more project interaction, process details and infrastructure expansion.
+- Cookie notice dismissed through Vue state (not direct DOM mutation).
+- Interactive Three.js architectural door assembly: pointer-drag rotation, exploded/reassembled layers, reset view, responsive canvas sizing, and renderer/resource cleanup.
+- Contact email links, location map link, footer navigation and reduced-motion CSS handling.
+
+## Fidelity status — work in progress
+
+This is **not yet a verified pixel-accurate clone**. The original site's full media library, exact font files and measurements, the complete cube-corridor-to-tea-room sequence, production scroll choreography, and final desktop/mobile browser comparison still need to be reproduced. Project-card artwork and team portraits remain temporary placeholders until original, usable assets can be identified. Do not treat the build as complete until the automated production build passes and the site is tested in a browser at desktop and mobile sizes.
 
 ## Reference
 
